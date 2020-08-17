@@ -1,0 +1,61 @@
+<li class="nav-item dropdown">
+    <a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+        <i class="icon-bubbles4"></i>
+        <span class="badge badge-pill bg-warning-400 ml-auto ml-md-0" *ngIf="unreadNotificationCount">    {{unreadNotificationCount}}</span>
+    </a>
+    
+    <div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-500">
+        <div class="dropdown-content-header">
+            <span class="font-weight-semibold">{{"Notifications" | localize}}</span>
+            <div>
+            <button type="button" class="btn bg-warning-400 btn-sm"          (click)="setAllNotificationsAsRead(); $event.preventDefault(); $event.stopPropagation();"
+            id="setAllNotificationsAsReadLink"
+            *ngIf="unreadNotificationCount"><i class="icon-compose mr-2"></i>{{"SetAllAsRead" | localize}}</button>
+            <button type="button" class="btn bg-success-400  btn-sm" id="openNotificationSettingsModalLink"
+            (click)="openNotificationSettingsModal()"><i class="icon-cog4 mr-2 spinner"></i> {{"Settings" | localize}}</button>
+        </div>
+        </div>
+
+        <div class="dropdown-content-body dropdown-scrollable">
+            <ul class="media-list">
+                <li class="media"  *ngFor="let notification of notifications" (click)="gotoUrl(notification.url)"
+                >
+                    <div class="mr-3 position-relative">
+                        <a *ngIf="notification.isUnread; else messageReaded" href="javascript:;" class="text-default" (click)="setNotificationAsRead(notification); $event.preventDefault(); $event.stopPropagation();">
+                            <i class="icon-checkbox-unchecked2 text-success"></i>
+
+                        </a>
+                        <ng-template #messageReaded>
+                            <a href="javascript:;" class="text-default">
+                                <i class="icon-checkbox-checked2"></i>
+    
+                            </a>
+                        </ng-template>
+                        
+                    </div>
+
+                    <div class="media-body">
+                        <div class="media-title">
+                            <a href="javascript:;">
+                                <span class="font-weight-semibold">  {{notification.text}}</span>
+                                <span class="text-muted float-right font-size-sm">     {{notification.time | momentFromNow}}</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="dropdown-content-footer justify-content-center p-0">
+            <a  class="bg-light text-grey text-center w-100 py-2" data-popup="tooltip" title="Load more" 
+            *ngIf="!notifications.length" >
+                {{"ThereAreNoNotifications" | localize}}    
+        </a>
+            <a href="#" class="bg-light text-center  w-100 py-2" data-popup="tooltip" title="Load more" *ngIf="notifications.length" >
+                <strong>{{"SeeAllNotifications" | localize}}</strong>
+            </a>
+            
+        </div>
+    </div>
+</li>

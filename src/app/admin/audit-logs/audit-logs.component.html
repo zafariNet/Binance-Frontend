@@ -1,0 +1,375 @@
+<div [@routerTransition]>
+    <ul class="nav nav-tabs nav-tabs-highlight mb-0">
+        <li class="nav-item"><a href="#OperationLogs" class="nav-link active" data-toggle="tab">{{'OperationLogs' | localize}}</a></li>
+        <li class="nav-item"><a href="#ChangeLogs" class="nav-link" data-toggle="tab">{{'ChangeLogs' | localize}}</a></li>
+    </ul>
+
+    <div class="tab-content card card-body border-top-0 rounded-top-0 mb-0">
+        <div class="tab-pane fade show active" id="OperationLogs">
+            <div class="row m-2">
+                <div class="col-sm-12 text-right">
+                    <button
+                    type="button"
+                    class="btn btn-sm bg-teal-400 btn-labeled btn-labeled-left margin-left-5"
+                    (click)="exportToExcelAuditLogs()"
+                >
+                    <b><i class="icon-file-excel"></i></b>
+                    {{"ExportToExcel" | localize}}
+                </button>
+
+                <button
+                type="button"
+                class="btn btn-sm btn-primary btn-labeled btn-labeled-left"
+                (click)="getAuditLogs()"
+            >
+                <b><i class="icon-reload-alt"></i></b>
+                {{"Refresh" | localize}}
+            </button>
+                </div>
+            </div>
+
+            <div class="form">
+                <form #auditFilterForm="ngForm" (ngSubmit)="getAuditLogs()">
+                    <div class="row align-items-center mb-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="StartEndRange">{{"DateRange" | localize}}</label>
+                                <input class="form-control" id="StartEndRange" name="StartEndRange"
+                                    #drp="bsDaterangepicker" readonly="readonly" bsDaterangepicker
+                                    dateRangePickerMomentModifier [(date)]="dateRange" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="UsernameAuditLog">{{"UserName" | localize}}</label>
+                                <input id="UsernameAuditLog" type="text" name="UsernameAuditLog"
+                                    class="form-control" [(ngModel)]="usernameAuditLog">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="advancedFiltersAreShown" class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ServiceName">{{"Service" | localize}}</label>
+                                <input id="ServiceName" name="ServiceName" type="text"
+                                    class="form-control" [(ngModel)]="serviceName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="display: block">{{"Duration" | localize}}</label>
+                            <div class="input-group" style="width: 250px !important;">
+                                <input type="text" name="MinExecutionDuration" only-number=""
+                                    class="form-control" min="0" max="86400000" ng-minlength="0"
+                                    ng-maxlength="8" [(ngModel)]="minExecutionDuration">
+                                <div class="input-group-append"><span
+                                        class="input-group-text">---</span></div>
+                                <input type="text" name="MaxExecutionDuration" only-number=""
+                                    class="form-control" min="0" max="86400000" ng-minlength="0"
+                                    ng-maxlength="8" [(ngModel)]="maxExecutionDuration">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="MethodName">{{"Action" | localize}}</label>
+                                <input id="MethodName" type="text" name="MethodName"
+                                    class="form-control" [(ngModel)]="methodName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="HasException">{{"ErrorState" | localize}}</label>
+                                <select id="HasException" name="HasException" class="form-control"
+                                    [(ngModel)]="hasException">
+                                    <option value="">{{"All" | localize}}</option>
+                                    <option value="false">{{"Success" | localize}}</option>
+                                    <option value="true">{{"HasError" | localize}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="BrowserInfo">{{"Browser" | localize}}</label>
+                                <input id="BrowserInfo" type="text" name="BrowserInfo"
+                                    class="form-control" [(ngModel)]="browserInfo">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                    class="fa fa-angle-down"></i>
+                                {{"ShowAdvancedFilters" | localize}}</span>
+                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                    class="fa fa-angle-up"></i>
+                                {{"HideAdvancedFilters" | localize}}</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="ChangeLogs">
+            <div class="row m-2">
+                <div class="col-sm-12 text-right">
+                    <button
+                    type="button"
+                    class="btn btn-sm bg-teal-400 btn-labeled btn-labeled-left margin-left-5"
+                    (click)="exportToExcelEntityChanges()"
+                >
+                    <b><i class="icon-file-excel"></i></b>
+                    {{"ExportToExcel" | localize}}
+                </button>
+
+                <button
+                type="button"
+                class="btn btn-sm btn-primary btn-labeled btn-labeled-left"
+                (click)="getEntityChanges()"
+            >
+                <b><i class="icon-reload-alt"></i></b>
+                {{"Refresh" | localize}}
+            </button>
+
+                </div>
+            </div>
+            <div class="form">
+                <form #entityChangeFilterForm="ngForm" (ngSubmit)="getEntityChanges()">
+                    <div class="row align-items-center mb-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label
+                                    for="StartEndRangeEntityChange">{{"DateRange" | localize}}</label>
+                                <input class="form-control" id="StartEndRangeEntityChange"
+                                    name="StartEndRangeEntityChange" readonly="readonly"
+                                    #drp="bsDaterangepicker" bsDaterangepicker
+                                    dateRangePickerMomentModifier [(date)]="dateRange">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="UserNameEntityChange">{{"UserName" | localize}}</label>
+                                <input id="UserNameEntityChange" type="text" name="UserNameEntityChange"
+                                    class="form-control" [(ngModel)]="usernameEntityChange">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="EntityTypeFullName">{{"Object" | localize}}</label>
+
+                                <select id="EntityTypeFullName" name="EntityTypeFullName"
+                                    class="form-control" [(ngModel)]="entityTypeFullName">
+                                    <option value=undefined selected="selected">{{"All" | localize}}
+                                    </option>
+                                    <option *ngFor="let objectType of objectTypes"
+                                        [value]="objectType.value">{{objectType.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row align-items-center">
+                <!--<Primeng-TurboTable-Start>-->
+                <div class="primeng-datatable-container"
+                    [busyIf]="primengTableHelperEntityChanges.isLoading">
+                    <p-table #dataTableEntityChanges sortMode="multiple" (onLazyLoad)="getEntityChanges($event)"
+                        [value]="primengTableHelperEntityChanges.records"
+                        rows="{{primengTableHelperEntityChanges.defaultRecordsCountPerPage}}"
+                        [paginator]="false" [lazy]="true" scrollable="true" ScrollWidth="100%"
+                        responsive="primengTableHelperEntityChanges.isResponsive"
+                        resizableColumns="primengTableHelperEntityChanges.resizableColumns">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 40px">
+                                </th>
+                                <th style="width: 150px">
+                                    {{'Action' | localize}}
+                                </th>
+                                <th style="width: 250px">
+                                    {{'Object' | localize}}
+                                </th>
+                                <th style="width: 150px" pSortableColumn="userName">
+                                    {{'UserName' | localize}}
+                                    <p-sortIcon field="userName"></p-sortIcon>
+                                </th>
+                                <th style="width: 150px" pSortableColumn="changeTime">
+                                    {{'Time' | localize}}
+                                    <p-sortIcon field="changeTime"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-record="$implicit">
+                            <tr>
+                                <td style="width: 40px">
+                                    <div class="text-center">
+                                        <button class="btn btn-outline-primary btn-sm btn-icon"
+                                            (click)="showEntityChangeDetails(record)"><i
+                                                class="la la-search"
+                                                [attr.aria-label]="l('Search')"></i></button>
+                                    </div>
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title">{{'Action' | localize}}</span>
+                                    <span
+                                        title="{{record.changeTypeName}}">{{l(record.changeTypeName)}}</span>
+                                </td>
+                                <td style="width: 250px">
+                                    <span class="ui-column-title">{{'Object' | localize}}</span>
+                                    {{record.entityTypeFullName}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title">{{'UserName' | localize}}</span>
+                                    {{record.userName}}
+                                </td>
+                                <td style="width: 150px">
+                                    <span class="ui-column-title">{{'Time' | localize}}</span>
+                                    {{ record.changeTime | momentFormat:'YYYY-MM-DD HH:mm:ss'}}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                    <div class="primeng-no-data"
+                        *ngIf="primengTableHelperEntityChanges.totalRecordsCount == 0">
+                        {{'NoData' | localize}}
+                    </div>
+                    <div class="primeng-paging-container">
+                        <p-paginator [rows]="primengTableHelperEntityChanges.defaultRecordsCountPerPage"
+                            #paginatorEntityChanges (onPageChange)="getEntityChanges($event)"
+                            [totalRecords]="primengTableHelperEntityChanges.totalRecordsCount"
+                            [rowsPerPageOptions]="primengTableHelperEntityChanges.predefinedRecordsCountPerPage">
+                        </p-paginator>
+                        <span class="total-records-count">
+                            {{'TotalRecordsCount' | localize:primengTableHelperEntityChanges.totalRecordsCount}}
+                        </span>
+                    </div>
+                </div>
+                <!--<Primeng-TurboTable-End>-->
+            </div>
+        </div>
+
+<div  [busyIf]="primengTableHelper.isLoading">
+    <table class="table table-hover table-striped grid">
+        <thead>
+            <tr class="colored-header">
+                <th style="width:75px"></th>
+                <th style="width:75px"></th>
+                <th style="width: 150px" >
+                    {{'UserName' | localize}}
+                </th>
+                <th >
+                    {{'Service' | localize}}
+                </th>
+                <th>
+                    {{'Action' | localize}}
+                </th>
+                <th>
+                    {{'Duration' | localize}}
+                </th>
+                <th>
+                    {{'IpAddress' | localize}}
+                </th>
+                <th>
+                    {{'Client' | localize}}
+                </th>
+                <th>
+                    {{'Browser' | localize}}
+                </th>
+                <th >
+                    {{'Time' | localize}}
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of items  | paginate: paginationConfig">
+                <td style="width: 75px">
+                    <div class="text-center">
+                        <button class="btn btn-outline-primary btn-sm btn-icon"
+                            (click)="showAuditLogDetails(record)"><i
+                                class="la la-search"
+                                [attr.aria-label]="l('Search')"></i></button>
+                    </div>
+                </td>
+                <td style="width: 75px">
+                    <div class="text-center">
+                        <i *ngIf="record.exception"
+                            class="fa fa-exclamation-triangle text-warning"></i>
+                        <i *ngIf="!record.exception"
+                            class="fa fa-check-circle text-success"></i>
+                    </div>
+                </td>
+                <td >
+                    {{record.userName}}
+                </td>
+                <td>
+                    {{record.serviceName}}
+                </td>
+                <td >
+                    {{record.methodName}}
+                </td>
+                <td style="width: 100px">
+                    <span class="ui-column-title">{{'Duration' | localize}}</span>
+                </td>
+                <td style="width: 150px">
+                    {{record.clientIpAddress}}
+                </td>
+                <td style="width: 150px">
+                    {{record.clientName}}
+                </td>
+                <td style="width: 150px">
+{{truncateStringWithPostfix(record.browserInfo, 20)}}
+                </td>
+                <td style="width: 150px">
+                    {{ record.executionTime | momentFormat:'YYYY-MM-DD HH:mm:ss'}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div
+    class="alert alert-warning border-0"
+    style="text-align: center;"
+    *ngIf="items.length == 0"
+>
+    <span class="font-weight-semibold"
+        >{{ "NoData" | localize }}!</span
+    >
+</div>
+</div>
+
+<pagination-template #p="paginationApi" [id]="paginationConfig.id" (pageChange)="pageChanged($event,'getAuditLogs')">
+
+
+    <div class="custom-pagination">
+        <ul class="pagination pagination-lg mb-3 align-self-center">
+            <li class="page-item" *ngIf="!p.isFirstPage()" (click)="p.previous()" >
+                <a class="page-link" >صفحه قبل</a>
+            </li>
+            <li class="page-item"  *ngFor="let page of p.pages" [ngClass]="{'active':p.getCurrent() === page.value}">
+<a class="page-link" (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</a>
+<a class="page-link" (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() === page.value">{{ page.label }}</a>
+            </li>
+            <li class="page-item" *ngIf="!p.isLastPage()" (click)="p.next()">
+                <a class="page-link" >صفحه بعد</a>
+            </li>
+        </ul>
+
+    </div>
+
+  </pagination-template>
+
+
+
+    </div>
+
+    <auditLogDetailModal #auditLogDetailModal></auditLogDetailModal>
+    <entityChangeDetailModal #entityChangeDetailModal></entityChangeDetailModal>
+</div>

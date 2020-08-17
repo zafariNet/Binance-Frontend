@@ -1,0 +1,117 @@
+<div class="navbar navbar-expand-md navbar-dark">
+    <div class="navbar-brand">
+        <a href="index.html" class="d-inline-block">
+            <img src="assets/template/global_assets/images/logo_light.png" alt="">
+        </a>
+    </div>
+
+    <div class="d-md-none">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+            <i class="icon-tree5"></i>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-mobile">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a href="#" class="navbar-nav-link">
+                    <i class="icon-lock4"></i>
+                    <span class="d-md-none ml-2">Go to website</span>
+                </a>					
+            </li>
+            </ul>
+            </div>
+</div>
+
+
+<div
+    class="content d-flex justify-content-center align-items-center"
+    [@routerTransition]
+>
+    <!-- Login form -->
+    <form
+        class="login-form"
+        #loginForm="ngForm"
+        method="post"
+        method="post"
+        (ngSubmit)="login()"
+    >
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i
+                        class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"
+                    ></i>
+                    <h5 class="mb-0">{{ "LogIn" | localize }}</h5>
+                    <span class="d-block text-muted">{{
+                        "YourCredentials" | localize
+                    }}</span>
+                </div>
+
+                <div
+                    class="form-group form-group-feedback form-group-feedback-left"
+                >
+                    <input
+                        type="text"
+                        class="form-control"
+                        #userNameOrEmailAddressInput="ngModel"
+                        [(ngModel)]="
+                            loginService.authenticateModel
+                                .userNameOrEmailAddress
+                        "
+                        autoFocus
+                        autocomplete="new-password"
+                        placeholder="{{ 'UserNameOrEmail' | localize }} *"
+                        name="userNameOrEmailAddress"
+                        required
+                    />
+                    <div class="form-control-feedback">
+                        <i class="icon-user text-muted"></i>
+                    </div>
+                    <validation-messages
+                        [formCtrl]="userNameOrEmailAddressInput"
+                        *ngIf="!userNameOrEmailAddressInput.touched"
+                    >
+                    </validation-messages>
+                </div>
+
+                <div
+                    class="form-group form-group-feedback form-group-feedback-left"
+                >
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="{{ 'Password' | localize }}"
+                        #passwordInput="ngModel"
+                        [(ngModel)]="loginService.authenticateModel.password"
+                        autocomplete="new-password"
+                        placeholder="{{ 'Password' | localize }} *"
+                        name="password"
+                        required
+                        maxlength="32"
+                    />
+                    <div class="form-control-feedback">
+                        <i class="icon-lock2 text-muted"></i>
+                    </div>
+                    <validation-messages
+                        [formCtrl]="passwordInput"
+                        *ngIf="!passwordInput.touched"
+                    ></validation-messages>
+                </div>
+
+                <div class="form-group">
+                    <button
+                        type="submit"
+                        [disabled]="!loginForm.form.valid"
+                        class="btn btn-primary btn-block"
+                    >
+                        {{ "LogIn" | localize
+                        }}<i class="icon-circle-left2 ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- /login form -->
+</div>
+<!-- /content area -->

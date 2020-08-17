@@ -1,0 +1,108 @@
+<!-- Main navbar -->
+<div class="navbar navbar-expand-md navbar-dark">
+    <div class="navbar-brand">
+        <a href="index.html" class="d-inline-block">
+            <img src="assets/template/global_assets/images/logo_light.png" alt="">
+        </a>
+    </div>
+
+    <div class="d-md-none">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+            <i class="icon-tree5"></i>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-mobile">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a href="#" class="navbar-nav-link">
+                    <i class="icon-lock4"></i>
+                    <span class="d-md-none ml-2">Go to website</span>
+                </a>					
+            </li>
+            </ul>
+            </div>
+</div>
+<!-- /main navbar -->
+
+
+<!-- Page content -->
+<div class="page-content"  [@routerTransition]>
+
+    <!-- Main content -->
+    <div class="content-wrapper">
+
+        <!-- Content area -->
+        <div class="content d-flex justify-content-center align-items-center">
+
+            <!-- Unlock form -->
+                <form #loginForm="ngForm" class="login-form" method="post" novalidate (ngSubmit)="login()">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="card-img-actions d-inline-block mb-3">
+                                <img class="rounded-circle" *ngIf="userInfo && userInfo.profilePicture"
+                                [src]="userInfo.profilePicture" alt="profileimage" width="160" height="160" alt="">
+                                <div class="card-img-actions-overlay card-img rounded-circle">
+                                    <a href="#" class="btn btn-outline bg-white text-white border-white border-2 btn-icon rounded-round">
+                                        <i class="icon-question7"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-3">
+                            <h6 class="font-weight-semibold mb-0">{{'YourSessionIsLocked' | localize}}</h6>
+                            <span class="d-block text-muted">{{userInfo.userName}}</span>
+                        </div>
+
+                        <div class="form-group form-group-feedback form-group-feedback-right">
+                            <input type="password" class="form-control"
+                            #passwordInput="ngModel"
+                            [(ngModel)]="loginService.authenticateModel.password"
+                            type="password" autocomplete="new-password"
+                            placeholder="{{'Password' | localize}}*" name="password" required
+                           maxlength="32">
+                            <div class="form-control-feedback">
+                                <i class="icon-user-lock text-muted"></i>
+                            </div>
+                            <validation-messages [formCtrl]="passwordInput" *ngIf="!passwordInput.touched">
+                            </validation-messages>
+                        </div>
+
+                        <div class="form-group d-flex align-items-center">
+                                <div class="checkbox">
+                                    <label  for="RememberMe">
+                                     <input id="EditRole_IsDefault" type="checkbox" value="" 
+                                     name="RememberMe"
+                                     [(ngModel)]="loginService.rememberMe"
+                                     id="RememberMe">
+                                     <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                     {{"RememberMe" | localize}}
+                                     </label>
+                                  </div>
+                        
+
+                        </div>
+
+                        <button type="submit" 
+                        [disabled]="!loginForm.form.valid"
+                        class="btn btn-primary btn-block"
+                        ><i class="icon-unlocked mr-2"></i> {{"LogIn" | localize}}</button>
+                    </div>
+                </div>
+            </form>
+            <!-- /unlock form -->
+
+        </div>
+        <!-- /content area -->
+
+
+
+    </div>
+    <!-- /main content -->
+
+</div>
+<!-- /page content -->
+
+

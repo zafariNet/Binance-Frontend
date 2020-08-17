@@ -1,0 +1,273 @@
+<div
+    appBsModal
+    #mySettingsModal="bs-modal"
+    (onShown)="onShown()"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form
+                *ngIf="active"
+                #mySettingsModalForm="ngForm"
+                (ngSubmit)="save()"
+            >
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>{{ "MySettings" | localize }}</span>
+                    </h5>
+                    <button
+                        type="button"
+                        class="close"
+                        [attr.aria-label]="l('Close')"
+                        (click)="close()"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" *ngIf="user" >
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label
+                                    class="form-group-float-label is-visible"
+                                    for="Name"
+                                    >{{ "Name" | localize }}</label
+                                >
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        id="Name"
+                                        class="form-control"
+                                        name="Name"
+                                        #nameInput="ngModel"
+                                        [(ngModel)]="user.name"
+                                        required
+                                        maxlength="64"
+                                    />
+                                    <span class="input-group-append">
+                                        <span class="input-group-text"
+                                            ><i class="icon-user"></i
+                                        ></span>
+                                    </span>
+                                </div>
+                                <validation-messages
+                                    [formCtrl]="nameInput"
+                                ></validation-messages>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-group-float">
+                                <label
+                                    class="form-group-float-label is-visible"
+                                    for="Surname"
+                                    >{{ "Surname" | localize }}</label
+                                >
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        id="Surname"
+                                        class="form-control"
+                                        name="Surname"
+                                        #surnameInput="ngModel"
+                                        [(ngModel)]="user.surname"
+                                        required
+                                        maxlength="64"
+                                    />
+                                    <span class="input-group-append">
+                                        <span class="input-group-text"
+                                            ><i class="icon-user"></i
+                                        ></span>
+                                    </span>
+                                </div>
+                                <validation-messages
+                                    [formCtrl]="surnameInput"
+                                ></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-group-float">
+                                <label
+                                    class="form-group-float-label is-visible"
+                                    for="EmailAddress"
+                                    >{{ "EmailAddress" | localize }}</label
+                                >
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        id="EmailAddress"
+                                        class="form-control"
+                                        name="EmailAddress"
+                                        #emailAddressInput="ngModel"
+                                        [(ngModel)]="user.emailAddress"
+                                        required
+                                        maxlength="64"
+                                    />
+                                    <span class="input-group-append">
+                                        <span class="input-group-text"
+                                            ><i class="icon-envelop"></i
+                                        ></span>
+                                    </span>
+                                </div>
+                                <validation-messages
+                                    [formCtrl]="emailAddressInput"
+                                ></validation-messages>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="smsEnabled">
+                        <!-- *ngIf="smsEnabled" -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>{{ "PhoneNumber" | localize }}</label>
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        name="PhoneNumber"
+                                        class="form-control"
+                                        [(ngModel)]="user.phoneNumber"
+                                        maxlength="32"
+                                    />
+                                    <span class="input-group-append">
+                                        <button
+                                            class="btn btn-light"
+                                            type="button"
+                                            id="btnSmsVerification"
+                                            (click)="smsVerify()"
+                                            [disabled]="
+                                                isPhoneNumberConfirmed &&
+                                                savedPhoneNumber ==
+                                                    user.phoneNumber
+                                            "
+                                            tooltip="{{
+                                                'YourPhoneNumberIsNotVerified'
+                                                    | localize
+                                            }}"
+                                        >
+                                            {{ "Verify" | localize }}
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        name="PhoneNumber"
+                                        class="form-control"
+                                        [(ngModel)]="user.phoneNumber"
+                                        maxlength="32"
+                                    />
+
+                                    <div
+                                        *ngIf="
+                                            isPhoneNumberConfirmed &&
+                                            savedPhoneNumber == user.phoneNumber
+                                        "
+                                        class="input-group-append"
+                                        id="SpanSmsVerificationVerified"
+                                    >
+                                        <span
+                                            class="input-group-text"
+                                            tooltip="{{
+                                                'YourPhoneNumberIsVerified'
+                                                    | localize
+                                            }}"
+                                        >
+                                            <i
+                                                class="la la-check label-success"
+                                                [attr.aria-label]="
+                                                    l('Verified')
+                                                "
+                                            ></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div class="col-md-12">
+                            <div class="form-group form-group-float">
+                                <label
+                                    class="form-group-float-label is-visible"
+                                    for="UserName"
+                                    >{{ "UserName" | localize }}</label
+                                >
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        id="UserName"
+                                        class="form-control"
+                                        name="UserName"
+                                        #userNameInput="ngModel"
+                                        [(ngModel)]="user.userName"
+                                        [disabled]="!canChangeUserName"
+                                        required
+                                        maxlength="256"
+                                    />
+                                    <span class="input-group-append">
+                                        <span class="input-group-text"
+                                            ><i class="icon-user"></i
+                                        ></span>
+                                    </span>
+                                </div>
+                                <span
+                                class="form-text text-muted"
+                                *ngIf="!canChangeUserName"
+                                >{{ "CanNotChangeAdminUserName" | localize }}</span
+                            >
+                            <validation-messages
+                                [formCtrl]="userNameInput"
+                            ></validation-messages>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        
+
+                <div class="form-group" *ngIf="showTimezoneSelection">
+                    <label for="Timezone">{{ "Timezone" | localize }}</label>
+                    <timezone-combo
+                        name="Timezone"
+                        [(ngModel)]="user.timezone"
+                        defaultTimezoneScope="{{ defaultTimezoneScope }}"
+                    ></timezone-combo>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        [disabled]="saving"
+                        type="button"
+                        class="btn btn-outline alpha-warning text-warning-800 border-warning-600"
+                        (click)="close()"
+                    >
+                        {{ "Cancel" | localize }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn bg-success btn-labeled btn-labeled-left"
+                        [disabled]="!mySettingsModalForm.form.valid || saving"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <b><i class="icon-floppy-disk"></i></b>
+                        {{ "Save" | localize }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<smsVerificationModal
+    *ngIf="user"
+    #smsVerificationModal
+    (modalSave)="changePhoneNumberToVerified()"
+    [newPhoneNumber]="user.phoneNumber"
+></smsVerificationModal>

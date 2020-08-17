@@ -1,0 +1,44 @@
+<div [@routerTransition]>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="card  border-top-success">
+                        <div class="card-header header-elements-inline">
+                            <h6 class="card-title">{{'OrganizationTree'|localize}}</h6>
+
+                        </div>
+
+                        <div class="card-body ">
+
+                            <organization-tree #ouTree (ouSelected)="ouSelected($event)"></organization-tree>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="alert alert-success border-0 alert-dismissible" *ngIf="organizationUnit">
+                        
+                        <span class="font-weight-semibold">{{organizationUnit.displayName}}</span>
+                    </div>
+                        <ul class="nav nav-tabs nav-tabs-highlight nav-justified mb-0">
+                            <li class="nav-item"><a href="#Members" class="nav-link active show" data-toggle="tab">{{'Members' | localize}}</a></li>
+                            <li class="nav-item"><a href="#Roles" class="nav-link" data-toggle="tab">{{'Roles' | localize}}</a></li>
+                            
+                        </ul>
+
+                        <div class="tab-content card card-body border-top-0 rounded-top-0 mb-0">
+                            <div class="tab-pane fade active show" id="Members">
+                                <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)"
+                                (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
+
+                            </div>
+
+                            <div class="tab-pane fade" id="Roles">
+                                <organization-unit-roles #ouRoles (rolesAdded)="ouTree.rolesAdded($event)"
+                                (roleRemoved)="ouTree.roleRemoved($event)"></organization-unit-roles>
+                            </div>
+
+
+                        </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,313 @@
+<div appBsModal #createOrEditModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #userForm="ngForm" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="user.id">{{"EditUser" | localize}}: {{user.userName}}</span>
+                        <span *ngIf="!user.id">{{"CreateNewUser" | localize}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+        
+
+                    <tabset>
+                        <tab heading="{{'UserInformations' | localize}}">
+                            <div class="row">
+                                <div class="col-md-4">
+                             
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="UserName"
+                                        >{{"UserName" | localize}} *</label>
+                                        <div class="input-group">
+                                            <input type="text" 
+                                            class="form-control"  name="UserName"
+                                            [disabled]="!canChangeUserName" 
+                                            #userNameInput="ngModel"
+                                            [(ngModel)]="user.userName" required maxlength="256"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-user"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                                        <span class="help-block" *ngIf="!canChangeUserName">{{"CanNotChangeAdminUserName" | localize}}</span>
+                                        <validation-messages [formCtrl]="userNameInput"></validation-messages>
+                
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="Name"
+                                        >{{"Name" | localize}} *</label>
+                                        <div class="input-group">
+                                            <input type="text" 
+                                            class="form-control"  name="Name"
+                                            #nameInput="ngModel"
+                                            id="Name"
+                                            [(ngModel)]="user.name" required maxlength="64"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-pencil7"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                                        <validation-messages [formCtrl]="nameInput"></validation-messages>
+                
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="Surname"
+                                        >{{"Surname" | localize}} *</label>
+                                        <div class="input-group">
+                                            <input type="text" 
+                                            id="Surname" #surnameInput="ngModel" 
+                                            class="form-control"  name="Name"
+                                            [(ngModel)]="user.surname" required maxlength="64"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-pencil7"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                                        <validation-messages [formCtrl]="surnameInput"></validation-messages>
+                
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                             
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="EmailAddress"
+                                        >{{"EmailAddress" | localize}} *</label>
+                                        <div class="input-group">
+                                            <input type="email" 
+                                            class="form-control"  name="EmailAddress"
+                                            [disabled]="!canChangeUserName" 
+                                            #emailAddressInput="ngModel"
+                                            [(ngModel)]="user.emailAddress" required maxlength="256" email
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-envelop"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                                        
+                                        <validation-messages [formCtrl]="emailAddressInput"></validation-messages>
+                
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                             
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="PhoneNumber"
+                                        >{{"PhoneNumber" | localize}} *</label>
+                                        <div class="input-group">
+                                            <input type="text" 
+                                            class="form-control"  name="PhoneNumber"
+                                            [disabled]="!canChangeUserName" 
+                                            #emailAddressInput="ngModel"
+                                            id="PhoneNumber"
+                                            [(ngModel)]="user.phoneNumber" maxlength="32"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-phone"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                                                        
+                                    </div>
+                                </div>
+                            </div>
+   
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="checkbox">
+                                        <label for="EditUser_SetRandomPassword">
+                                         <input id="EditUser_SetRandomPassword" type="checkbox" 
+                                         name="SetRandomPassword"  [(ngModel)]="setRandomPassword">
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"SetRandomPassword" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+                                <div class="col-md-4"  *ngIf="!setRandomPassword">
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="Password"
+                                        >{{"Password" | localize}}</label>
+                                        <div class="input-group">
+                                            <input type="password" 
+                                            id="Password"
+                                            class="form-control"  name="EmailAddress"
+                                            name="Password"
+                                            [disabled]="!canChangeUserName" 
+                                            #Password="ngModel"
+                                            [(ngModel)]="user.password" [required]="!user.id && !setRandomPassword" maxlength="32"
+                                            [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                                            [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                            validateEqual="PasswordRepeat" reverse="true"
+                                            autocomplete="new-password"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-lock"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngIf="!setRandomPassword">
+                                    <div class="form-group form-group-float">
+                                        <label class="form-group-float-label is-visible" for="PasswordRepeat"
+                                        >{{"PasswordRepeat" | localize}}</label>
+                                        <div class="input-group">
+                                            <input id="PasswordRepeat" type="password" name="PasswordRepeat" #PasswordRepeat="ngModel" class="form-control" [(ngModel)]="userPasswordRepeat" [required]="!user.id && !setRandomPassword" maxlength="32"
+                                            [requireDigit]="passwordComplexitySetting.requireDigit" [requireLowercase]="passwordComplexitySetting.requireLowercase"
+                                            [requireUppercase]="passwordComplexitySetting.requireUppercase" [requireNonAlphanumeric]="passwordComplexitySetting.requireNonAlphanumeric" [requiredLength]="passwordComplexitySetting.requiredLength"
+                                            validateEqual="Password" reverse="false"
+                                            autocomplete="new-password"
+                                            >
+                                            <span class="input-group-append">
+                                                <span class="input-group-text"><i class="icon-lock"></i></span>
+                                            </span>
+                                            
+                                        </div>
+                
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row" [hidden]="setRandomPassword || userForm.form.valid || userForm.form.pristine">
+                                <div class="col-md-4">
+
+                                </div>
+                                <div class="col-md-4" *ngIf="userForm.controls['Password'] && userForm.controls['Password'].errors">
+                                    <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['Password'].errors.requireDigit">{{"PasswordComplexity_RequireDigit_Hint" | localize}}</label>
+                                    <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['Password'].errors.requireLowercase">{{"PasswordComplexity_RequireLowercase_Hint" | localize}}</label>
+                                    <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['Password'].errors.requireUppercase">{{"PasswordComplexity_RequireUppercase_Hint" | localize}}</label>
+                                    <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['Password'].errors.requireNonAlphanumeric">{{"PasswordComplexity_RequireNonAlphanumeric_Hint" | localize}}</label>
+                                    <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['Password'].errors.requiredLength">{{"PasswordComplexity_RequiredLength_Hint" | localize:passwordComplexitySetting.requiredLength}}</label>
+                                </div>
+                                <div class="col-md-4" *ngIf="userForm.controls['PasswordRepeat'] && userForm.controls['PasswordRepeat'].errors">
+
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['PasswordRepeat'].errors.requireDigit">{{"PasswordComplexity_RequireDigit_Hint" | localize}}</label>
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['PasswordRepeat'].errors.requireLowercase">{{"PasswordComplexity_RequireLowercase_Hint" | localize}}</label>
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['PasswordRepeat'].errors.requireUppercase">{{"PasswordComplexity_RequireUppercase_Hint" | localize}}</label>
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['PasswordRepeat'].errors.requireNonAlphanumeric">{{"PasswordComplexity_RequireNonAlphanumeric_Hint" | localize}}</label>
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="!userForm.controls['PasswordRepeat'].errors.requiredLength">{{"PasswordComplexity_RequiredLength_Hint" | localize:passwordComplexitySetting.requiredLength}}</label>
+                                        <label  class="validation-invalid-label" for="with_icon" [hidden]="userForm.controls['PasswordRepeat'].errors.valid">{{"PasswordsDontMatch" | localize}}</label>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="checkbox">
+                                        <label for="EditUser_ShouldChangePasswordOnNextLogin">
+                                         <input id="EditUser_ShouldChangePasswordOnNextLogin" type="checkbox" 
+                                         name="ShouldChangePasswordOnNextLogin" [(ngModel)]="user.shouldChangePasswordOnNextLogin"
+                                         >
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"ShouldChangePasswordOnNextLogin" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="checkbox">
+                                        <label for="EditUser_SendActivationEmail">
+                                         <input id="EditUser_SendActivationEmail" type="checkbox" 
+                                         name="SendActivationEmail" [(ngModel)]="sendActivationEmail"
+                                         >
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"SendActivationEmail" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+              
+                                <div class="col-md-3" *ngIf="isTwoFactorEnabled">
+                                    <div class="checkbox">
+                                        <label for="EditUser_IsTwoFactorEnabled">
+                                         <input id="EditUser_IsTwoFactorEnabled" type="checkbox" 
+                                         name="IsTwoFactorEnabled" [(ngModel)]="user.isTwoFactorEnabled"
+                                         >
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"IsTwoFactorEnabled" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+
+                                <div class="col-md-4" *ngIf="isLockoutEnabled">
+                                    <div class="checkbox">
+                                        <label for="EditUser_IsLockoutEnabled">
+                                         <input id="EditUser_IsLockoutEnabled" type="checkbox" 
+                                         name="IsLockoutEnabled" [(ngModel)]="user.isLockoutEnabled"
+                                         >
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"IsLockoutEnabled" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="checkbox">
+                                        <label for="EditUser_IsActive">
+                                         <input id="EditUser_IsActive" type="checkbox" 
+                                         name="IsActive" [(ngModel)]="user.isActive"
+                                         >
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{"Active" | localize}}
+                                         </label>
+                                      </div>
+
+                                </div>
+                            </div>
+  
+                        </tab>
+                        <tab heading="{{'Roles' | localize}}">
+                            <ng-template tabHeading>
+                                
+                                <span class="lable badge-pill bg-warning-400 margin-right-5">{{getAssignedRoleCount()}}</span>
+                            </ng-template>
+
+<div class="row">
+                                <div class="col-md-2"  *ngFor="let role of roles">
+                                    <div class="checkbox">
+                                        <label attr.for="EditUser_{{role.roleName}}"   >
+                                         <input id="EditUser_IsActive" type="checkbox" name="{{role.roleName}}" [(ngModel)]="role.isAssigned" [disabled]="role.inheritedFromOrganizationUnit">
+                                         <span class="cr"><i class="cr-icon icon-checkmark"></i></span>
+                                         {{role.roleDisplayName}} <small *ngIf="role.inheritedFromOrganizationUnit">({{'RoleIsInheritedFromOrganizationUnit' | localize}})</small>
+                                         </label>
+                                      </div>
+
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="{{'OrganizationUnits' | localize}}">
+                            <organization-unit-tree [cascadeSelectEnabled]="false" #organizationUnitTree></organization-unit-tree>
+                        </tab>
+                    </tabset>
+                </div>
+                <div class="modal-footer">
+
+                    <button [disabled]="saving" type="button" class="btn btn-outline alpha-warning text-warning-800 border-warning-600" (click)="close()">{{"Cancel" | localize}}</button>
+                    <button type="submit" class="btn bg-success btn-labeled btn-labeled-left"
+                    [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"
+                    ><b><i class="icon-floppy-disk"></i></b> {{"Save" | localize}}</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

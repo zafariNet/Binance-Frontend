@@ -1,0 +1,231 @@
+<div class="card border-top-success" [@routerTransition]>
+    <div class="card-header header-elements-inline">
+        <h5 class="card-title"></h5>
+        <div class="header-elements">
+            <ul class="nav nav-pills mb-0">
+                <li class="nav-item" style="padding-right: 10px;">
+                    <button
+                        type="button"
+                        class="btn btn-info btn-labeled btn-labeled-left ng-star-inserted"
+                        (click)="createRole()"
+                        *ngIf="'Pages.Administration.Roles.Create' | permission"
+                    >
+                        <b><i class="fa fa-plus"></i></b>
+                        {{ "CreateNewRole" | localize }}
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="form-group">
+                    <permission-tree-modal
+                        #permissionFilterTreeModal
+                        (onModalclose)="getRoles()"
+                    >
+                    </permission-tree-modal>
+                </div>
+            </div>
+            <div class="col-xl-6 text-right">
+                <button
+                    name="RefreshButton"
+                    class="btn btn-primary"
+                    (click)="getRoles()"
+                >
+                    <i class="icon-reload-alt"></i>
+                    {{ "Refresh" | localize }}
+                </button>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div  [busyIf]="primengTableHelper.isLoading">
+        <table class="table table-hover table-striped grid">
+            <thead>
+                <tr class="colored-header">
+                        <th
+                            style="width: 130px;"
+                            [hidden]="
+                                !(
+                                    [
+                                        'Pages.Administration.Roles.Edit',
+                                        'Pages.Administration.Roles.Delete'
+                                    ] | permissionAny
+                                )
+                            "
+                        >
+                            {{ "Actions" | localize }}
+                        </th>
+                        <th>{{ "RoleName" | localize }}</th>
+                        <th>
+                            {{ "CreationTime" | localize }}
+                        </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let record of primengTableHelper.records">
+                    <td       style="padding-top: 0px; padding-bottom: 0px;"
+                        [hidden]="
+                            !(
+                                ([
+                                    'Pages.Administration.Roles.Edit',
+                                    'Pages.Administration.Roles.Delete'
+                                ] | permissionAny) ||
+                                entityHistoryEnabled
+                            )
+                        "
+                    >
+                        <div class="btn-group">
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-primary btn-icon dropdown-toggle"
+                                data-toggle="dropdown"
+                            >
+                                <i
+                                    class="icon-gear"
+                                ></i>
+                            </button>
+
+                            <div
+                                class="dropdown-menu dropdown-menu-right"
+                            >
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:;"
+                                    *ngIf="
+                                        'Pages.Administration.Roles.Edit'
+                                            | permission
+                                    "
+                                    (click)="
+                                        createOrEditRoleModal.show(
+                                            record.id
+                                        )
+                                    "
+                                    ><i
+                                        class="icon-pencil7"
+                                    ></i>
+                                    {{
+                                        "Edit"
+                                            | localize
+                                    }}</a
+                                >
+                                <a
+                                    href="#"
+                                    class="dropdown-item"
+                                    href="javascript:;"
+                                    *ngIf="
+                                        !record.isStatic &&
+                                        ('Pages.Administration.Roles.Delete'
+                                            | permission)
+                                    "
+                                    (click)="
+                                        deleteRole(
+                                            record
+                                        )
+                                    "
+                                    ><i
+                                        class="icon-minus-circle2"
+                                    ></i
+                                    >{{
+                                        "Delete"
+                                            | localize
+                                    }}</a
+                                >
+
+                                <div
+                                    class="dropdown-divider"
+                                    *ngIf="
+                                        entityHistoryEnabled
+                                    "
+                                ></div>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:;"
+                                    *ngIf="
+                                        entityHistoryEnabled
+                                    "
+                                    (click)="
+                                        showHistory(
+                                            record
+                                        )
+                                    "
+                                    ><i
+                                        class="icon-history"
+                                    ></i
+                                    >{{
+                                        "History"
+                                            | localize
+                                    }}</a
+                                >
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+   
+                        <span>
+                            {{ record.displayName }}
+                            <span
+                                *ngIf="record.isStatic"
+                                class="label label-primary label-inline m-1"
+                                data-toggle="tooltip"
+                                title="{{
+                                    'StaticRole_Tooltip'
+                                        | localize
+                                }}"
+                                data-placement="top"
+                            >
+                                {{
+                                    "Static" | localize
+                                }}
+                            </span>
+                            <span
+                                *ngIf="record.isDefault"
+                                class="label label-dark label-inline m-1"
+                                data-toggle="tooltip"
+                                title="{{
+                                    'DefaultRole_Description'
+                                        | localize
+                                }}"
+                                data-placement="top"
+                            >
+                                {{
+                                    "Default" | localize
+                                }}
+                            </span>
+                        </span>
+                    </td>
+                    <td>
+
+                        {{
+                            record.creationTime
+                                | momentFormat: "L"
+                        }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div
+        class="alert alert-warning border-0"
+        style="text-align: center;"
+        *ngIf="primengTableHelper.totalRecordsCount == 0"
+    >
+        <span class="font-weight-semibold"
+            >{{ "NoData" | localize }}!</span
+        >
+    </div>
+    </div>
+    <createOrEditRoleModal
+    #createOrEditRoleModal
+    (modalSave)="getRoles()"
+></createOrEditRoleModal>
+<entityTypeHistoryModal
+    #entityTypeHistoryModal
+></entityTypeHistoryModal>
+</div>

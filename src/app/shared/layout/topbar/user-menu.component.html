@@ -1,0 +1,126 @@
+<li class="nav-item dropdown dropdown-user">
+    <a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+        <img
+            src="assets/template/global_assets/images/placeholders/placeholder.jpg"
+            class="rounded-circle"
+            alt=""
+        />
+
+        <i *ngIf="isImpersonatedLogin" class="fa fa-reply text-danger"></i>
+        <span *ngIf="isMultiTenancyEnabled" class="tenancy-name"
+            >{{ tenancyName }} /</span
+        >{{ userName }}
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right">
+        <a
+            class="dropdown-item"
+            href="javascript:;"
+            *ngIf="isImpersonatedLogin"
+            (click)="backToMyAccount()"
+            id="UserProfileBackToMyAccountButton"
+        >
+            <i class="icon-git-compare text-success-800"></i>
+            {{ "BackToMyAccount" | localize }}
+        </a>
+        <a
+            class="dropdown-item"
+            href="javascript:;"
+            (click)="showLinkedAccounts()"
+            id="ManageLinkedAccountsLink"
+        >
+            <i class="icon-link2 text-success-800"></i>
+            {{ "ManageLinkedAccounts" | localize }}
+        </a>
+
+        <div
+            class="dropdown-submenu"
+            *ngIf="recentlyLinkedUsers && recentlyLinkedUsers.length"
+        >
+            <a href="javascript:;" class="dropdown-item dropdown-toggle">{{
+                l("LinkedAccounts")
+            }}</a>
+            <div class="dropdown-menu">
+                <a
+                    href="javascript:;"
+                    *ngFor="let linkedUser of recentlyLinkedUsers"
+                    (click)="switchToLinkedUser(linkedUser)"
+                    class="dropdown-item"
+                >
+                    {{ getShownUserName(linkedUser) }}</a
+                >
+            </div>
+        </div>
+
+        <a
+            class="dropdown-item"
+            id="ManageUserDelegations"
+            *ngIf="
+                appSession.application.userDelegationIsEnabled &&
+                !isImpersonatedLogin
+            "
+            (click)="showUserDelegations()"
+        >
+            <i class="icon-thumbs-up3 text-success-800"></i>
+            {{ "ManageUserDelegations" | localize }}
+        </a>
+
+        <a
+            class="dropdown-item"
+            id="UserProfileChangePasswordLink"
+            (click)="changePassword()"
+        >
+            <i class="icon-lock2 text-success-800"></i>
+            {{ "ChangePassword" | localize }}
+        </a>
+
+        <a
+            class="dropdown-item"
+            href="javascript:;"
+            id="ShowLoginAttemptsLink"
+            (click)="showLoginAttempts()"
+        >
+            <i class="icon-users2 text-success-800"></i>
+            {{ "LoginAttempts" | localize }}
+        </a>
+
+
+
+        <a
+            class="dropdown-item"
+            id="UserProfileMySettingsLink"
+            (click)="changeMySettings()"
+        >
+            <i class="icon-cog2 text-success-800"></i>
+            {{ "MySettings" | localize }}
+        </a>
+        <!-- <a
+            class="dropdown-item"
+            *ngIf="!('Pages.Administration.UiCustomization' | permission)"
+            routerLink="admin/ui-customization"
+            id="UserProfileVisualSettingsLink"
+        >
+            <i class="icon-user-plus"></i>
+            {{ "VisualSettings" | localize }}
+        </a> -->
+
+        <a
+            class="dropdown-item"
+            id="UserDownloadCollectedDataLink"
+            (click)="downloadCollectedData()"
+        >
+            <i class="icon-cloud-download2 text-success-800"></i>
+            {{ "DownloadCollectedData" | localize }}
+        </a>
+
+        
+        <a
+            class="dropdown-item"
+            id="LogOut"
+            (click)="logout()"
+        >
+            <i class="icon-enter3 text-success-800"></i>
+            {{"Logout" | localize}}
+        </a>
+    </div>
+</li>

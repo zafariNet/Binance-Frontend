@@ -1,0 +1,215 @@
+<div class="card border-top-success" [@routerTransition]>
+    <div class="card-header header-elements-inline"></div>
+
+    <div class="card-body">
+        <form autocomplete="new-password" class="form" id="TextsFilterForm">
+            <div>
+                <div class="row align-items-center m--margin-bottom-10">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="TextBaseLanguageSelectionCombobox">{{
+                                "BaseLanguage" | localize
+                            }}</label>
+                            <select
+                                #baseLanguageNameCombobox
+                                name="baseLanguageName"
+                                class="form-control bs-select"
+                                [(ngModel)]="baseLanguageName"
+                            >
+                                <option
+                                    *ngFor="let language of languages"
+                                    [value]="language.name"
+                                    [attr.data-icon]="language.icon"
+                                    >{{ language.displayName }}</option
+                                >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="TextTargetLanguageSelectionCombobox">{{
+                                "TargetLanguage" | localize
+                            }}</label>
+                            <select
+                                #targetLanguageNameCombobox
+                                name="targetLanguageName"
+                                class="form-control bs-select"
+                                [(ngModel)]="targetLanguageName"
+                            >
+                                <option
+                                    *ngFor="let language of languages"
+                                    [value]="language.name"
+                                    [attr.data-icon]="language.icon"
+                                    >{{ language.displayName }}</option
+                                >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="TextSourceSelectionCombobox">{{
+                                "Source" | localize
+                            }}</label>
+                            <select
+                                #sourceNameCombobox
+                                name="sourceName"
+                                class="form-control bs-select"
+                                [(ngModel)]="sourceName"
+                            >
+                                <option
+                                    *ngFor="let sourceName of sourceNames"
+                                    [value]="sourceName"
+                                >
+                                    {{ sourceName }}</option
+                                >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+                            <label for="TargetValueFilterSelectionCombobox">{{
+                                "TargetValue" | localize
+                            }}</label>
+                            <select
+                                #targetValueFilterCombobox
+                                name="targetValueFilter"
+                                class="form-control bs-select"
+                                [(ngModel)]="targetValueFilter"
+                            >
+                                <option value="ALL">{{
+                                    "All" | localize
+                                }}</option>
+                                <option value="EMPTY">{{
+                                    "EmptyOnes" | localize
+                                }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center mb-4">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <input
+                                [(ngModel)]="filterText"
+                                name="filterText"
+                                autoFocus
+                                class="form-control"
+                                placeholder="{{
+                                    'SearchWithThreeDot' | localize
+                                }}"
+                                type="text"
+                            />
+                            <span class="input-group-btn">
+                                <button
+                                    (click)="applyFilters()"
+                                    class="btn btn-primary"
+                                    type="submit"
+                                >
+                                    <i class="icon-refresh"></i>
+                                    {{ "Refresh" | localize }}
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div [busyIf]="primengTableHelper.isLoading">
+ 
+     
+        </div>
+
+
+    </div>
+    <div [busyIf]="primengTableHelper.isLoading">
+ 
+    <table class="table table-hover table-striped grid">
+        <thead>
+            <tr class="colored-header">
+                <th >
+                    {{ "Key" | localize }}
+                </th>
+                <th >
+                    {{ "BaseValue" | localize }}
+                </th>
+                <th >
+                    {{ "TargetValue" | localize }}
+                </th>
+                <th style="width: 100px;">{{ "Edit" | localize }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let record of primengTableHelper.records" >
+                <td>
+     {{ record.key }}
+                </td>
+                <td>
+{{ record.baseValue }}
+                </td>
+                <td>
+    {{ record.targetValue }}
+                </td>
+                <td>
+                    <button
+                        class="btn btn-outline-primary btn-sm btn-icon"
+                        (click)="
+                            editTextModal.show(
+                                baseLanguageName,
+                                targetLanguageName,
+                                sourceName,
+                                record.key,
+                                record.baseValue,
+                                record.targetValue
+                            )
+                        "
+                        title="{{ 'Edit' | localize }}"
+                    >
+                        <i
+                            class="fa fa-edit"
+                            [attr.aria-label]="l('Edit')"
+                        ></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div
+    class="alert alert-warning border-0"
+    style="text-align: center;"
+    *ngIf="primengTableHelper.totalRecordsCount == 0"
+>
+    <span class="font-weight-semibold"
+        >{{ "NoData" | localize }}!</span
+    >
+</div>
+
+<div class="primeng-paging-container">
+    <p-paginator
+        [rows]="
+            primengTableHelper.defaultRecordsCountPerPage
+        "
+        #paginator
+        (onPageChange)="getLanguageTexts($event)"
+        [totalRecords]="
+            primengTableHelper.totalRecordsCount
+        "
+        [rowsPerPageOptions]="
+            primengTableHelper.predefinedRecordsCountPerPage
+        "
+    >
+    </p-paginator>
+
+    <span class="total-records-count">
+        {{
+            "TotalRecordsCount"
+                | localize
+                    : primengTableHelper.totalRecordsCount
+        }}
+    </span>
+</div>
+    </div>
+    <editTextModal
+    #editTextModal
+    (modalSave)="refreshTextValueFromModal()"
+></editTextModal>
+</div>

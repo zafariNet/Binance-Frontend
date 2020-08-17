@@ -1,0 +1,290 @@
+/* You can add global styles to this file, and also import other style files */
+
+@font-face {
+	font-family: Vazir;
+	font-style: normal;
+	font-weight: bold;
+	src: url('assets/fonts/Vazir/Vazir-Medium-FD.ttf');
+	src: url('assets/fonts/Vazir/Vazir-Medium-FD.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('assets/fonts/Vazir/Vazir-Medium-FD.woff2') format('woff2'),  /* FF39+,Chrome36+, Opera24+*/
+		 url('assets/fonts/Vazir/Vazir-Medium-FD.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('assets/fonts/Vazir/Vazir-Medium-FD.ttf') format('truetype');
+}
+body{
+    font-family: Vazir !Important;
+}
+.margin-left-5 {
+    margin-left: 5px !important;
+}
+
+.margin-right-5 {
+    margin-right: 5px !important;
+}
+
+.margin-top-5 {
+    margin-top: 5px !important;
+}
+
+.margin-top-15 {
+    margin-top: 15px !important;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px !important;
+}
+
+.padding-left-5 {
+    padding-left: 5px !important;
+}
+
+.padding-right-5 {
+    padding-right: 5px !important;
+}
+
+.padding-top-5 {
+    padding-top: 5px !important;
+}
+
+.padding-bottom-5 {
+    padding-bottom: 5px !important;
+}
+
+.width-percent-5 {
+    width: 5%;
+}
+
+.width-percent-10 {
+    width: 10%;
+}
+
+.width-percent-15 {
+    width: 15%;
+}
+
+.width-percent-20 {
+    width: 20%;
+}
+
+.width-percent-30 {
+    width: 30%;
+}
+
+.width-percent-40 {
+    width: 40%;
+}
+
+.width-percent-50 {
+    width: 50%;
+}
+
+.width-percent-100 {
+    width: 100%;
+}
+
+/* Sweet alert */
+
+.swal2-title {
+    display: inline-block !important;
+}
+
+body.swal2-height-auto {
+    height: inherit !important;
+}
+
+.swal2-popup.swal2-toast {
+    padding: 10px 12px !important;
+    display: block !important;
+}
+
+.swal2-popup.swal2-toast .swal2-header,
+.swal2-popup.swal2-toast .swal2-title,
+.swal2-popup.swal2-toast .swal2-content {
+    text-align: left !important;
+    margin: 0 !important;
+}
+
+.swal2-popup.swal2-toast .swal2-title {
+    margin-bottom: 4px !important;
+}
+
+.swal2-icon.swal2-info::before,
+.swal2-icon.swal2-warning::before,
+.swal2-icon.swal2-success::before,
+.swal2-icon.swal2-error::before {
+    content: "";
+}
+
+@keyframes glowing {
+    0% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.glowing {
+    animation: glowing 2s infinite;
+}
+
+.root-initial-loader .overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(26, 53, 91);
+    z-index: 99999 !important;
+    width: 100%;
+    height: 100%;
+}
+
+.root-initial-loader i {
+    position: absolute;
+    color: rgb(91, 167, 234);
+    z-index: 100000 !important;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.root-initial-loader .fa-spin-2x {
+    -webkit-animation: fa-spin 1s infinite linear;
+    animation: fa-spin 1s infinite linear;
+}
+ngx-spinner .loading-text {
+    font-weight: bold;
+    color: white;
+    font-size: 1.3em;
+}
+
+.sidebar-dark{
+    background-color:  rgba(21,42,73,1) !important;
+}
+
+.navbar-dark {
+    background-color:rgb(26, 53, 91) !important;
+}
+
+.sidebar-xs .sidebar-main.sidebar-dark .nav-sidebar>.nav-item-submenu>.nav-group-sub{
+    background-color:  rgba(21,42,73,1) !important;
+}
+
+.ui-treenode-label >span{
+    font-family: Vazir !Important;
+}
+.ui-tree .ui-tree-container .ui-treenode .ui-treenode-content .ui-treenode-icon
+{
+    color: #ff7043 !important;
+}
+
+body .ui-contextmenu .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-text{
+    font-family: Vazir !important;
+}
+body .ui-menu .ui-menuitem-link .ui-menuitem-text, body .ui-menubar .ui-menuitem-link .ui-menuitem-text, body .ui-tieredmenu .ui-menuitem-link .ui-menuitem-text, body .ui-contextmenu .ui-menuitem-link .ui-menuitem-text, body .ui-megamenu .ui-menuitem-link .ui-menuitem-text, body .ui-slidemenu .ui-menuitem-link .ui-menuitem-text
+{
+    font-family: Vazir !important;
+}
+
+.checkbox label:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  
+  .checkbox .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: right;
+    margin-left: .5em;
+    cursor: pointer;
+  }
+  
+  .checkbox .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 15%;
+  }
+  
+  .checkbox label input[type="checkbox"] {
+    display: none;
+  }
+  
+  .checkbox label input[type="checkbox"]+.cr>.cr-icon {
+    opacity: 0;
+  }
+  
+  .checkbox label input[type="checkbox"]:checked+.cr>.cr-icon {
+    opacity: 1;
+  }
+  
+  .checkbox label input[type="checkbox"]:disabled+.cr {
+    opacity: .5;
+  }
+  body .ui-tree .ui-tree-container .ui-treenode{
+      margin-right:15px;
+  }
+  .pi-caret-down:before{
+    content: "\e904" !Important;
+  }
+  .help-block{
+      color: #fae9e4 !Important;
+
+  }
+  .colored-header{
+    border: 1px solid #c8c8c8;
+    font-weight: 700;
+    color: #333333;
+    background-color: #f4f4f4;
+    white-space: nowrap;
+
+  }
+  .colored-header>th{
+    font-weight: bolder;
+    padding: .5rem 0.5rem !Important;
+  }
+  .cc-message{
+      font-family: Vazir !important;
+  }
+  .cc-dismiss{
+    font-family: Vazir !important;
+  }
+  .grid>thead>tr th{
+      text-align: center;
+  }
+  .grid>tbody>tr td{
+    text-align: center;
+}
+.ngx-datatable *, .ngx-datatable :after, .ngx-datatable  {
+    text-align: center !Important;
+ }
+ .datatable-header-inner{
+    font-weight: 700;
+    color: #333333;
+    background-color: #f4f4f4;
+ }
+
+ .dropdown-menu-in-table {         
+    max-height: 200px;
+    overflow-y: auto;
+  }

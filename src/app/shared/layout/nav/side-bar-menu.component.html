@@ -1,0 +1,372 @@
+<!-- Sidebar mobile toggler -->
+<div class="sidebar-mobile-toggler text-center">
+    <a href="#" class="sidebar-mobile-main-toggle">
+        <i class="icon-arrow-right8"></i>
+    </a>
+    Navigation
+    <a href="#" class="sidebar-mobile-expand">
+        <i class="icon-screen-full"></i>
+        <i class="icon-screen-normal"></i>
+    </a>
+</div>
+<!-- /sidebar mobile toggler -->
+
+<!-- User menu -->
+<div class="sidebar-user">
+    <div class="card-body">
+        <div class="media">
+            <div class="mr-3">
+                <a href="#"
+                    ><img
+                        src="assets/template/global_assets/images/placeholders/placeholder.jpg"
+                        width="38"
+                        height="38"
+                        class="rounded-circle"
+                        alt=""
+                /></a>
+            </div>
+
+            <div class="media-body">
+                <div class="media-title font-weight-semibold">
+                    {{fullName}}
+                </div>
+                <div class="font-size-xs opacity-50">
+                    <i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
+                </div>
+            </div>
+
+            <div class="ml-3 align-self-center">
+                <a href="#" class="text-white"><i class="icon-cog3"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /user menu -->
+<div class="card card-sidebar-mobile">
+    <ul class="nav nav-sidebar" data-nav-type="accordion">
+        <li class="nav-item-header">
+            <div class="text-uppercase font-size-xs line-height-xs">منوی اصلی</div>
+            <i class="icon-menu" title="Main"></i>
+        </li>
+        <ng-container *ngFor="let child of menu.items">
+        <li
+            class="nav-item"
+            *ngIf="showMenuItem(child)"
+            [ngClass]="{ 'nav-item-submenu': child.items.length }"
+            
+        >
+            <a
+                class="nav-link"
+                *ngIf="!child.items.length && !child.external"
+                [queryParams]="child.parameters"
+                [routerLink]="child.route"
+                [routerLinkActive]="'active'"
+            >
+                <i *ngIf="child.icon" [ngClass]="child.icon"></i>
+                <span>
+                    {{ child.name | localize }}
+                </span>
+            </a>
+
+            <a
+                class="nav-link"
+                target="_blank"
+                *ngIf="!child.items.length && child.external"
+                [queryParams]="child.parameters"
+                [routerLink]="child.route"
+                [routerLinkActive]="'active'"
+            >
+                <i *ngIf="child.icon" [ngClass]="child.icon"></i>
+                <span>
+                    {{ child.name | localize }}
+                </span>
+            </a>
+
+            <a
+                class="nav-link"
+                href="javascript:;"
+                *ngIf="child.items.length"
+                [routerLinkActive]="'active'"
+            >
+                <i *ngIf="child.icon" [ngClass]="child.icon"></i>
+                <span>
+                    {{ child.name | localize }}
+                </span>
+            </a>
+            <ul
+                class="nav nav-group-sub"
+                data-submenu-title="Layouts"
+                *ngIf="child.items.length"
+            >
+                <!-- Level 2    -->
+                <ng-container  *ngFor="let child2 of child.items">
+                <li
+                    class="nav-item"
+                    *ngIf="showMenuItem(child2)"
+                    [ngClass]="{ 'nav-item-submenu': child2.items.length }"
+                >
+                    <a
+                        class="nav-link"
+                        *ngIf="!child2.items.length && !child2.external"
+                        [queryParams]="child2.parameters"
+                        [routerLink]="child2.route"
+                        [routerLinkActive]="'active'"
+                    >
+                        <i *ngIf="child2.icon" [ngClass]="child2.icon"></i>
+                        <span>
+                            {{ child2.name | localize }}
+                        </span>
+                    </a>
+
+                    <a
+                        class="nav-link"
+                        target="_blank"
+                        *ngIf="!child2.items.length && child2.external"
+                        [queryParams]="child.parameters"
+                        [routerLink]="child2.route"
+                        [routerLinkActive]="'active'"
+                    >
+                        <i *ngIf="child2.icon" [ngClass]="child2.icon"></i>
+                        <span>
+                            {{ child2.name | localize }}
+                        </span>
+                    </a>
+
+                    <a
+                        href="javascript:;"
+                        class="nav-link"
+                        *ngIf="child2.items.length"
+                        [routerLinkActive]="'active'"
+                    >
+                        <i *ngIf="child2.icon" [ngClass]="child2.icon"></i>
+                        <span>
+                            {{ child2.name | localize }}
+                        </span>
+                    </a>
+                    <ul
+                        class="nav nav-group-sub"
+                        data-submenu-title="Layouts"
+                        *ngIf="child2.items.length"
+                    >
+                        <!-- Level 3    -->
+                        <ng-container  *ngFor="let child3 of child2.items">
+                        <li
+                            class="nav-item"
+                            *ngIf="showMenuItem(child3)"
+                            [ngClass]="{
+                                'nav-item-submenu': child3.items.length
+                            }"
+                        >
+                            <a
+                                class="nav-link"
+                                *ngIf="!child3.items.length && !child3.external"
+                                [queryParams]="child3.parameters"
+                                [routerLink]="child3.route"
+                                [routerLinkActive]="'active'"
+                            >
+                                <i
+                                    *ngIf="child3.icon"
+                                    [ngClass]="child3.icon"
+                                ></i>
+                                <span>
+                                    {{ child3.name | localize }}
+                                </span>
+                            </a>
+
+                            <a
+                                class="nav-link"
+                                target="_blank"
+                                *ngIf="!child3.items.length && child3.external"
+                                [queryParams]="child.parameters"
+                                [routerLink]="child3.route"
+                                [routerLinkActive]="'active'"
+                            >
+                                <i
+                                    *ngIf="child3.icon"
+                                    [ngClass]="child3.icon"
+                                ></i>
+                                <span>
+                                    {{ child3.name | localize }}
+                                </span>
+                            </a>
+
+                            <a
+                                href="javascript:;"
+                                class="nav-link"
+                                *ngIf="child3.items.length"
+                                class="nav-item"
+                                [routerLinkActive]="'active'"
+                            >
+                                <i
+                                    *ngIf="child3.icon"
+                                    [ngClass]="child3.icon"
+                                ></i>
+                                <span>
+                                    {{ child3.name | localize }}
+                                </span>
+                            </a>
+                            <ul
+                                class="nav nav-group-sub"
+                                data-submenu-title="Layouts"
+                                *ngIf="child3.items.length"
+                            >
+                                <!-- Level 4    -->
+                                <ng-container    *ngFor="let child4 of child3.items">
+                                <li
+                                    class="nav-item"
+                                    *ngIf="showMenuItem(child4)"
+                                    [ngClass]="{
+                                        'nav-item-submenu': child4.items.length
+                                    }"
+                                >
+                                    <a
+                                        class="nav-link"
+                                        *ngIf="
+                                            !child4.items.length &&
+                                            !child4.external
+                                        "
+                                        [queryParams]="child4.parameters"
+                                        [routerLink]="child4.route"
+                                        [routerLinkActive]="'active'"
+                                    >
+                                        <i
+                                            *ngIf="child4.icon"
+                                            [ngClass]="child4.icon"
+                                        ></i>
+                                        <span>
+                                            {{ child4.name | localize }}
+                                        </span>
+                                    </a>
+
+                                    <a
+                                        class="nav-link"
+                                        target="_blank"
+                                        *ngIf="
+                                            !child4.items.length &&
+                                            child4.external
+                                        "
+                                        [queryParams]="child.parameters"
+                                        [routerLink]="child4.route"
+                                        [routerLinkActive]="'active'"
+                                    >
+                                        <i
+                                            *ngIf="child4.icon"
+                                            [ngClass]="child4.icon"
+                                        ></i>
+                                        <span>
+                                            {{ child4.name | localize }}
+                                        </span>
+                                    </a>
+
+                                    <a
+                                        href="javascript:;"
+                                        class="nav-link"
+                                        *ngIf="child4.items.length"
+                                        [routerLinkActive]="'active'"
+                                    >
+                                        <i
+                                            *ngIf="child4.icon"
+                                            [ngClass]="child4.icon"
+                                        ></i>
+                                        <span>
+                                            {{ child4.name | localize }}
+                                        </span>
+                                    </a>
+                                    <ul
+                                        class="nav nav-group-sub"
+                                        data-submenu-title="Layouts"
+                                        *ngIf="child4.items.length"
+                                    >
+                                        <!-- Level 5    -->
+                                        <ng-container 
+                                        *ngFor="let child5 of child4.items">
+                                        <li
+                                        *ngIf="showMenuItem(child5)"
+                                            class="nav-item"
+                                            [ngClass]="{
+                                                'nav-item-submenu':
+                                                    child5.items.length
+                                            }"
+                                        >
+                                            <a
+                                                class="nav-link"
+                                                *ngIf="
+                                                    !child5.items.length &&
+                                                    !child5.external
+                                                "
+                                                [queryParams]="
+                                                    child5.parameters
+                                                "
+                                                [routerLink]="child5.route"
+                                                [routerLinkActive]="'active'"
+                                            >
+                                                <i
+                                                    *ngIf="child5.icon"
+                                                    [ngClass]="child5.icon"
+                                                ></i>
+                                                <span>
+                                                    {{ child5.name | localize }}
+                                                </span>
+                                            </a>
+
+                                            <a
+                                                class="nav-link"
+                                                target="_blank"
+                                                *ngIf="
+                                                    !child5.items.length &&
+                                                    child5.external
+                                                "
+                                                [queryParams]="
+                                                    child5.parameters
+                                                "
+                                                [routerLink]="child5.route"
+                                                [routerLinkActive]="'active'"
+                                            >
+                                                <i
+                                                    *ngIf="child5.icon"
+                                                    [ngClass]="child5.icon"
+                                                ></i>
+                                                <span>
+                                                    {{ child5.name | localize }}
+                                                </span>
+                                            </a>
+
+                                            <a
+                                                href="javascript:;"
+                                                class="nav-link"
+                                                *ngIf="child5.items.length"
+                                                class="nav-item"
+                                                [routerLinkActive]="'active'"
+                                            >
+                                                <i
+                                                    *ngIf="child5.icon"
+                                                    [ngClass]="child5.icon"
+                                                ></i>
+                                                <span>
+                                                    {{ child5.name | localize }}
+                                                </span>
+                                            </a>
+                                            <!-- <ul class="nav nav-group-sub" data-submenu-title="Layouts" *ngIf="child5.items.length">
+                                
+                        </ul>
+         -->
+                                        </li>
+                                    </ng-container>
+                                        <!-- // Level 5 -->
+                                    </ul>
+                                </li>
+                            </ng-container>
+                                <!-- // Level 4 -->
+                            </ul>
+                        </li>
+                    </ng-container>
+                        <!-- // Level 3 -->
+                    </ul>
+                </li>
+            </ng-container>
+                <!-- // Level 2 -->
+            </ul>
+        </li>
+    </ng-container>
+    </ul>
+</div>

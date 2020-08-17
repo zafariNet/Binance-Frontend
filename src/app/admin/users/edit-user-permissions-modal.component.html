@@ -1,0 +1,33 @@
+<div appBsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form #userForm="ngForm" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{"Permissions" | localize}}<span *ngIf="userName"> - {{userName}}</span></span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <permission-tree #permissionTree></permission-tree>
+
+                    <div class="alert alert-warning" style="margin-bottom: 0; margin-top: 15px">
+                        <em>{{'Note_RefreshPageForPermissionChanges' | localize}}</em>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn alpha-blue text-blue-800 border-blue-600" [buttonBusy]="resettingPermissions" [busyText]="l('SavingWithThreeDot')" (click)="resetPermissions()" [tooltip]="l('ResetPermissionsTooltip')" placement="top"><i class="icon-reset mr-2"></i> {{"ResetSpecialPermissions" | localize}}</button>
+                    
+                    <button [disabled]="saving" type="button" class="btn btn-outline alpha-primary text-warning-800 border-warning-600" (click)="close()">{{"Cancel" | localize}}</button>
+                    <button type="submit" class="btn bg-success btn-labeled btn-labeled-left"
+                    [disabled]="!userForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"
+                    ><b><i class="icon-floppy-disk"></i></b> {{"Save" | localize}}</button>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
