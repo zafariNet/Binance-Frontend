@@ -1,11 +1,11 @@
 export class UserColumns {
-    Name = true;
-    Surname = true;
-    UserName = true;
-    EmailAddress = true;
-    PhoneNumber = true;
-    Roles = true;
-    EmailConfirm = true;
-    Active = true;
-    CreationTime = true;
+    public Name = true;
+    public Surname = true;
+    public UserName = true;
+    public EmailAddress = true;
+    public PhoneNumber = true;
+    public Roles = true;
+    public EmailConfirm = true;
+    public Active = true;
+    public CreationTime = true;
 }
